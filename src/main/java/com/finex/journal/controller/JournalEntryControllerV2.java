@@ -3,8 +3,10 @@ package com.finex.journal.controller;
 import com.finex.journal.Service.JournalEntryService;
 import com.finex.journal.entity.JournalEntry;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -22,13 +24,16 @@ public String togetmethod(){
 
     @GetMapping("/get")
     public List<JournalEntry> getAll(){
-        return null;
+        return journalEntryService.getAll();
     }
 
+
+
     @PostMapping
-    public String createEntry(@RequestBody JournalEntry myEntry){
+    public JournalEntry createEntry(@RequestBody JournalEntry myEntry){
+    myEntry.setDate(LocalDateTime.now());
         journalEntryService.saveEntry(myEntry);
-        return "Done";
+        return myEntry;
     }
 
     @PutMapping

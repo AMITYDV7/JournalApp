@@ -1,17 +1,32 @@
 package com.finex.journal.entity;
 
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.bind.annotation.RestController;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Document
 public class JournalEntry {
     private String title;
 
+    private LocalDateTime date;
+
    @Id //this is our primary key
-   private String id;
+   private ObjectId id;
 
     private String content;
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+
 
     public String getTitle() {
         return title;
@@ -21,11 +36,11 @@ public class JournalEntry {
         this.title = title;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(ObjectId id) {
         this.id = id;
     }
 

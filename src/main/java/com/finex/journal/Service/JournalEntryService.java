@@ -5,6 +5,8 @@ import com.finex.journal.repository.JournalEntryRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class JournalEntryService {
 @Autowired
@@ -12,5 +14,12 @@ public class JournalEntryService {
 
 public void saveEntry(JournalEntry journalEntry){
     journalEntryRepo.save(journalEntry);
+}
+public List<JournalEntry> getAll(){
+    return journalEntryRepo.findAll();
+}
+
+public void deleteById(){
+
 }
 }
