@@ -1,7 +1,9 @@
 package com.finex.journal.controller;
 
+import com.finex.journal.JournalApplication;
 import com.finex.journal.Service.JournalEntryService;
 import com.finex.journal.entity.JournalEntry;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Id;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,12 @@ public String togetmethod(){
     }
 
 
+    @GetMapping("id/{myId}")
+    public JournalEntry getJournalEntryById(@PathVariable ObjectId myId){
+        return journalEntryService.findMyId(myId).orElse(null);
+    }
+
+
 
     @PostMapping
     public JournalEntry createEntry(@RequestBody JournalEntry myEntry){
@@ -36,11 +44,24 @@ public String togetmethod(){
         return myEntry;
     }
 
-    @PutMapping
-    public JournalEntry updateJournalById(@PathVariable Long id,@RequestBody JournalEntry myEntry){
-        return null;
+    @PutMapping("/id/{id}")
+    public JournalEntry updateJournalById(@PathVariable ObjectId id,@RequestBody JournalEntry newEntry){
+        JournalEntry old = journalEntryService.findMyId(id).orElse(null);
+        if(old !=null){
+            old.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("") ? newEntry.getTitle() : old.getTitle());
+            old.setContent(newEntry.getContent() != null && !newEntry.getContent().equals("") ? newEntry.getContent() : old.getContent());
+
+        }
+        journalEntryService.saveEntry(old);
+        return old;
     }
 
+
+    @DeleteMapping("id/{myId}")
+    public String deleteEntity(@PathVariable ObjectId myId){
+      journalEntryService.deleteById(myId);
+      return "Deleting is done from database";
+    }
 
 }
 
