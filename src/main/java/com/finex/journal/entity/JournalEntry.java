@@ -12,15 +12,12 @@ import java.util.Date;
 @Data
 @Document
 public class JournalEntry {
-    private String title;
-
-    private LocalDateTime date;
 
     @Id //this is our primary key
     private ObjectId id;
-
+    private String title;
+    private LocalDateTime date;
     private String content;
-
 
     }
 
